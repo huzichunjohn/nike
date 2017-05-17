@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+    - ping:
+    - name: uptime
+      command: uptime
+    - include: echo.yml

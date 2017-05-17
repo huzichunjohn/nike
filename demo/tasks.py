@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from celery import task
 import subprocess
-import json
+import os
 
 @task(name="sum_two_numbers")
 def add(x, y):
@@ -21,7 +21,7 @@ def uptime():
 def ping():
     p = subprocess.Popen(["ansible-playbook", "-i", "/vagrant/src/hosts", "/vagrant/src/ping.yml", "-e",
                           "ansible_python_interpreter=/vagrant/src/venv/bin/python3.5", "-f", "3"],
-                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, env={**os.environ, "TASK_ID": "007"})
     stdout, stderr = p.communicate()
     if stdout:
         stdout_lines = stdout.decode('utf-8').split('\n')
